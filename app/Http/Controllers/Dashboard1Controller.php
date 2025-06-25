@@ -5,44 +5,65 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\StatistikPoli;
+use Carbon\Carbon;
 
 class Dashboard1Controller extends Controller
 {
-    public function index()
-    {
-        $data = StatistikPoli::all();
+    public function index(Request $request)
+{
+    $filter = $request->get('filter', 'bulan'); // default = bulan
+    $unit = $request->get('unit'); // filter unit_rs
 
-        // Ambil dan kelompokkan data berdasarkan jenis_penyakit dan bulan
-        $grouped = StatistikPoli::select('jenis_penyakit', 'bulan', DB::raw('SUM(jumlah_pasien) as total'))
-            ->groupBy('jenis_penyakit', 'bulan')
+    $query = StatistikPoli::query();
+    if ($unit) {
+        $query->where('unit_rs', $unit);
+    }
+
+    $data = $query->get();
+    $jumlahPasien = $query->sum('jumlah_pasien');
+
+    $labels = [];
+    $dataValues = [];
+
+    if ($filter === 'tahun') {
+        $grouped = $query->select('tahun', DB::raw('SUM(jumlah_pasien) as total'))
+            ->groupBy('tahun')
+            ->orderBy('tahun')
             ->get();
 
-        $chartData = [];
+        $labels = $grouped->pluck('tahun');
+        $dataValues = $grouped->pluck('total');
+    } else {
+        $grouped = $query->select('bulan', DB::raw('SUM(jumlah_pasien) as total'))
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->get();
 
-        foreach ($grouped->groupBy('jenis_penyakit') as $penyakit => $records) {
-            $monthly = array_fill(1, 12, 0);
-            foreach ($records as $rec) {
-                $monthly[$rec->bulan] = $rec->total;
-            }
+        $labels = $grouped->pluck('bulan')->map(function ($b) {
+            return \Carbon\Carbon::create()->month($b)->translatedFormat('F');
+        });
 
-            // Hanya tampilkan jika ada data selain 0
-            if (array_sum($monthly) > 0) {
-                $chartData[] = [
-                    'label' => $penyakit,
-                    'data' => array_values($monthly),
-                    'backgroundColor' => '#' . substr(md5($penyakit), 0, 6),
-                    'borderColor' => '#' . substr(md5($penyakit), 0, 6),
-                    'borderWidth' => 1,
-                ];
-            }
-        }
-
-
-
-        // Hitung total jumlah pasien
-        $jumlahPasien = StatistikPoli::sum('jumlah_pasien');
-
-        // Kirim ke view
-        return view('pages.dashboard1', compact('jumlahPasien','data', 'chartData'));
+        $dataValues = $grouped->pluck('total');
     }
+
+    $listUnit = [
+        'Poli Umum',
+        'Poli Anak',
+        'Poli Penyakit Dalam',
+        'Poli Paru',
+        'IGD',
+        'Rawat Inap',
+    ];
+
+    return view('pages.dashboard1', compact(
+        'jumlahPasien',
+        'data',
+        'labels',
+        'dataValues',
+        'filter',
+        'unit',
+        'listUnit'
+    ));
+}
+
 }
