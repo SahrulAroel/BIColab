@@ -23,12 +23,6 @@ Route::get('/kunjungan', [KunjunganPasienController::class, 'index'])->name('pag
 Route::post('/kunjungan', [KunjunganPasienController::class, 'store']);
 Route::delete('/kunjungan/{id}', [KunjunganPasienController::class, 'destroy']);
 
-
-// Analytics Routes
-Route::get('/patient-demographics', function () {
-    return view('pages.patient-demographics');
-})->name('patient.demographics');
-
 Route::get('/clinic-visits', function () {
     return view('pages.epoli');
 })->name('clinic.visits');

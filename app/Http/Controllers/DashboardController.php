@@ -6,37 +6,43 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\StatistikPenyakit;
 
+
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = StatistikPenyakit::all();
+        $tahunDipilih = $request->input('tahun', date('Y'));
 
-        // Ambil dan kelompokkan data berdasarkan jenis_penyakit dan bulan
-        $grouped = StatistikPenyakit::select('jenis_penyakit', 'bulan', DB::raw('SUM(jumlah_pasien) as total'))
-            ->groupBy('jenis_penyakit', 'bulan')
-            ->get();
+        $data = StatistikPenyakit::where('tahun', $tahunDipilih)
+            ->get()
+            ->groupBy('jenis_penyakit');
 
-        $chartData = [];
+    $bulanLabels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-        foreach ($grouped->groupBy('jenis_penyakit') as $penyakit => $records) {
-            $monthly = array_fill(1, 12, 0);
-            foreach ($records as $rec) {
-                $monthly[$rec->bulan] = $rec->total;
-            }
+    $datasets = [];
+    foreach ($data as $jenis => $items) {
+        $bulanData = array_fill(0, 12, 0); // Default 0 untuk semua bulan
 
-            // Hanya tampilkan jika ada data selain 0
-            if (array_sum($monthly) > 0) {
-                $chartData[] = [
-                    'label' => $penyakit,
-                    'data' => array_values($monthly),
-                    'backgroundColor' => '#' . substr(md5($penyakit), 0, 6),
-                    'borderColor' => '#' . substr(md5($penyakit), 0, 6),
-                    'borderWidth' => 1,
-                ];
+        foreach ($items as $item) {
+            $index = intval($item->bulan) - 1;
+            if ($index >= 0 && $index < 12) {
+                $bulanData[$index] += $item->jumlah_pasien;
             }
         }
 
-        return view('pages.dashboard', compact('data', 'chartData'));
+        // Hapus dataset kalau semua data 0 (tidak ada data)
+        if (array_sum($bulanData) > 0 && $jenis != null && $jenis != '') {
+            $datasets[] = [
+                'label' => $jenis,
+                'data' => $bulanData,
+                'backgroundColor' => 'rgba(' . rand(50, 200) . ',' . rand(50, 200) . ',' . rand(50, 200) . ',0.7)',
+                'borderWidth' => 0,
+            ];
+        }
+    }
+
+    $tahunTersedia = StatistikPenyakit::select('tahun')->distinct()->pluck('tahun');
+
+        return view('pages.dashboard', compact('datasets', 'bulanLabels', 'tahunDipilih', 'tahunTersedia'));
     }
 }

@@ -37,11 +37,11 @@
         </ul>
       </li>
       
-      <li class="dropdown {{ request()->is('patient-demographics') || request()->is('clinic-visits') ? 'active' : '' }}">
+      <li class="dropdown {{ request()->is('jk.index') || request()->is('clinic-visits') ? 'active' : '' }}">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-chart-line"></i> <span>Analytics</span></a>
         <ul class="dropdown-menu">
-          <li class="{{ request()->is('patient-demographics') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('patient.demographics') }}">Demografi Pasien</a>
+          <li class="{{ request()->is('jk.index') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('jk.index') }}">Demografi Pasien</a>
           </li>
           <li class="{{ request()->is('epoli.index') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('epoli.index') }}">Kunjungan per Unit</a>

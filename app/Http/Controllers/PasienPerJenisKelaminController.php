@@ -4,13 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PasienPerJenisKelamin;
+use Illuminate\Support\Facades\DB;
 
 class PasienPerJenisKelaminController extends Controller
 {
     public function index()
     {
         $data = PasienPerJenisKelamin::all();
-        return view('pages.pasien-jenis-kelamin', compact('data'));
+        $chartData = DB::table('pasien_per_jenis_kelamin')
+        ->select('jenis_kelamin', DB::raw('SUM(jumlah_pasien) as total'))
+        ->groupBy('jenis_kelamin')
+        ->get();
+
+    return view('pages.pasien-jenis-kelamin', [
+        'data' => $data,
+        'chartData' => $chartData
+    ]);
     }
 
     public function store(Request $request)

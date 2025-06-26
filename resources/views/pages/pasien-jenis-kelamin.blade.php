@@ -160,9 +160,9 @@
     var ctxDonut = document.getElementById('donutChart').getContext('2d');
 
     var chartData = {
-        labels: {!! json_encode($data->pluck('jenis_kelamin')) !!},
+        labels: {!! json_encode($chartData->pluck('jenis_kelamin')) !!},
         datasets: [{
-            data: {!! json_encode($data->pluck('jumlah_pasien')) !!},
+            data: {!! json_encode($chartData->pluck('total')) !!},
             backgroundColor: ['#36A2EB', '#FF6384'],
         }]
     };

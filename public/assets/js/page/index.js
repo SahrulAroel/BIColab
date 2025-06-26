@@ -58,8 +58,6 @@ var myChart2 = new Chart(ctx, {
   }
 });
 
-<<<<<<< HEAD
-=======
 var ctx = document.getElementById("myChart2sipa").getContext('2d');
 var myChart2 = new Chart(ctx, {
   type: 'line',
@@ -70,13 +68,15 @@ var myChart2 = new Chart(ctx, {
         label: 'Sales',
         data: [3200, 1800, 4305, 3022, 6310, 5120, 5880, 6154],
         backgroundColor: 'rgba(63,82,227,0.8)',
-        borderWidth: 0
+        borderWidth: 0,
+        pointRadius: 0.1, 
       },
       {
         label: 'Budget',
         data: [2207, 3403, 2200, 5025, 2302, 4208, 3880, 4880],
         backgroundColor: 'rgba(254,86,83,0.7)',
-        borderWidth: 0
+        borderWidth: 0,
+        pointRadius: 0.1, 
       },
     ]
   },
@@ -109,7 +109,6 @@ var myChart2 = new Chart(ctx, {
 });
 
 
->>>>>>> 46d7229fdf17b80d39f1b4c8ae4a07186675b6bd
 var balance_chart = document.getElementById("balance-chart").getContext('2d');
 
 var balance_chart_bg_color = balance_chart.createLinearGradient(0, 0, 0, 70);
