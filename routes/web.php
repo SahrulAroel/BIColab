@@ -10,6 +10,7 @@ use App\Http\Controllers\StatistikPoliController;
 use App\Http\Controllers\KunjunganPasienController;
 use App\Http\Controllers\JadwalDokterController;
 use App\Http\Controllers\PasienPerJenisKelaminController;
+use App\Http\Controllers\PembayaranController;
 
 // Dashboard Routes
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -29,6 +30,10 @@ Route::delete('/kunjungan/{id}', [KunjunganPasienController::class, 'destroy']);
 Route::get('/clinic-visits', function () {
     return view('pages.epoli');
 })->name('clinic.visits');
+
+Route::get('/seasonal-trend', function () {
+    return view('pages.seasonal_trend'); // pastikan file-nya ada
+})->name('seasonal.trend');
 
 // Home redirect
 Route::get('/', function () {
@@ -71,3 +76,10 @@ Route::post('/jadwal', [JadwalDokterController::class, 'store']);
 Route::get('/jadwal/{id}/edit', [JadwalDokterController::class, 'edit']);
 Route::put('/jadwal/{id}', [JadwalDokterController::class, 'update']);
 Route::delete('/jadwal/{id}', [JadwalDokterController::class, 'destroy']);
+
+Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran.index');
+Route::post('/pembayaran', [PembayaranController::class, 'store']);
+Route::delete('/pembayaran/{id}', [PembayaranController::class, 'destroy'])->name('pembayaran.destroy');
+
+// Untuk grafik nanti
+Route::get('/grafik-pembayaran', [PembayaranController::class, 'grafik'])->name('grafik.pembayaran');

@@ -26,9 +26,9 @@
       </li>
         </ul>
       </li>
-      
+
       <li class="menu-header">Data</li>
-      <li class="dropdown {{ request()->is('pbb') || request()->is('pages.kunjunganpasien') ? 'active' : '' }}">
+      <li class="dropdown {{ request()->is('pbb') || request()->is('seasonal-trend') ? 'active' : '' }}">
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-procedures"></i> <span>Patient Care</span></a>
         <ul class="dropdown-menu">
           <li class="{{ request()->is('pbb') ? 'active' : '' }}">
@@ -49,6 +49,15 @@
           <li class="{{ request()->is('epoli.index') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('epoli.index') }}">Kunjungan per Unit</a>
           </li>
+          <li class="dropdown {{ request()->is('pembayaran.index') || request()->is('grafik-pembayaran') ? 'active' : '' }}">
+  <a href="#" class="nav-link has-dropdown"><i class="fas fa-file-invoice-dollar"></i> <span>Statistik Pembayaran</span></a>
+  <ul class="dropdown-menu">
+    <li class="{{ request()->is('pembayaran.index') ? 'active' : '' }}">
+      <a class="nav-link" href="{{ route('pembayaran.index') }}">Data Pembayaran</a>
+    </li>
+    <li class="{{ request()->is('grafik-pembayaran') ? 'active' : '' }}">
+      <a class="nav-link" href="{{ route('grafik.pembayaran') }}">Grafik Pembayaran</a>
+    </li>
         </ul>
       </li>
              <li class="dropdown {{ request()->is('jadwal-dokter') ? 'active' : '' }}">
