@@ -21,6 +21,9 @@
           <li class="{{ request()->is('dashboard1') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('dashboard1') }}">Poli Dashboard By Eza</a>
           </li>
+                    <li class="{{ request()->is('dashboard-des') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('dashboard_des') }}">Doctor Dashboard</a>
+      </li>
         </ul>
       </li>
       
@@ -32,7 +35,7 @@
             <a class="nav-link" href="{{ route('pbb.index') }}">Data PPB</a>
           </li>
           <li class="{{ request()->is('pages.kunjunganpasien') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('pages.kunjunganpasien') }}">Tren Musiman</a>
+            <a class="nav-link" href="{{ route('pages.kunjunganpasien') }}">Lama Vs Baru</a>
           </li>
         </ul>
       </li>
@@ -48,6 +51,14 @@
           </li>
         </ul>
       </li>
+             <li class="dropdown {{ request()->is('jadwal-dokter') ? 'active' : '' }}">
+  <a href="#" class="nav-link has-dropdown"><i class="fas fa-user-md"></i> <span>Doctor</span></a>
+  <ul class="dropdown-menu">
+    <li class="{{ request()->is('jadwal-dokter') ? 'active' : '' }}">
+      <a class="nav-link" href="{{ route('jadwal.dokter') }}">Doctor Schedule</a>
+    </li>
+  </ul>
+</li>
     </ul>
 
     <div class="mt-4 mb-4 p-3 hide-sidebar-mini">

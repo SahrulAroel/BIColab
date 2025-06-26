@@ -2,10 +2,13 @@
 
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Models\JadwalDokter;
+use App\Http\Controllers\Dashbord22Controller;
 use App\Http\Controllers\StatistikPenyakitController;
 use App\Http\Controllers\Dashboard1Controller;
 use App\Http\Controllers\StatistikPoliController;
 use App\Http\Controllers\KunjunganPasienController;
+use App\Http\Controllers\JadwalDokterController;
 use App\Http\Controllers\PasienPerJenisKelaminController;
 
 // Dashboard Routes
@@ -51,3 +54,20 @@ Route::delete('/statistikPoli/{id}', [StatistikPoliController::class, 'destroy']
 Route::get('/pasien-jenis-kelamin', [PasienPerJenisKelaminController::class, 'index'])->name('jk.index');
 Route::post('/pasien-jenis-kelamin', [PasienPerJenisKelaminController::class, 'store']);
 Route::delete('/pasien-jenis-kelamin/{id}', [PasienPerJenisKelaminController::class, 'destroy']);
+
+// Doctor Schedule Route
+Route::get('/jadwal-dokter', function () {
+    $data = JadwalDokter::all();
+    return view('pages.dokter_des', compact('data'));
+})->name('jadwal.dokter');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/dashboard-des', [Dashbord22Controller::class, 'index'])->name('dashboard_des');
+
+
+//dokter
+Route::get('/jadwal', [JadwalDokterController::class, 'index'])->name('jadwal.index');
+Route::post('/jadwal', [JadwalDokterController::class, 'store']);
+Route::get('/jadwal/{id}/edit', [JadwalDokterController::class, 'edit']);
+Route::put('/jadwal/{id}', [JadwalDokterController::class, 'update']);
+Route::delete('/jadwal/{id}', [JadwalDokterController::class, 'destroy']);
