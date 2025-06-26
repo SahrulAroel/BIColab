@@ -23,32 +23,35 @@
           </li>
         </ul>
       </li>
-      
+
       <li class="menu-header">Data</li>
-      <li class="dropdown {{ request()->is('pbb') || request()->is('pages.kunjunganpasien') ? 'active' : '' }}">
+      <li class="dropdown {{ request()->is('pbb') || request()->is('seasonal-trend') ? 'active' : '' }}">
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-procedures"></i> <span>Patient Care</span></a>
         <ul class="dropdown-menu">
           <li class="{{ request()->is('pbb') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('pbb.index') }}">Data PPB</a>
           </li>
-          <li class="{{ request()->is('pages.kunjunganpasien') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('pages.kunjunganpasien') }}">Tren Musiman</a>
+          <li class="{{ request()->is('seasonal-trend') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('seasonal.trend') }}">Tren Musiman</a>
           </li>
         </ul>
       </li>
+
       
-      <li class="dropdown {{ request()->is('jk.index') || request()->is('clinic-visits') ? 'active' : '' }}">
-        <a href="#" class="nav-link has-dropdown"><i class="fas fa-chart-line"></i> <span>Analytics</span></a>
-        <ul class="dropdown-menu">
-          <li class="{{ request()->is('jk.index') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('jk.index') }}">Demografi Pasien</a>
-          </li>
-          <li class="{{ request()->is('epoli.index') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('epoli.index') }}">Kunjungan per Unit</a>
-          </li>
-        </ul>
-      </li>
-    </ul>
+
+      <li class="dropdown {{ request()->is('pembayaran.index') || request()->is('grafik-pembayaran') ? 'active' : '' }}">
+  <a href="#" class="nav-link has-dropdown"><i class="fas fa-file-invoice-dollar"></i> <span>Statistik Pembayaran</span></a>
+  <ul class="dropdown-menu">
+    <li class="{{ request()->is('pembayaran.index') ? 'active' : '' }}">
+      <a class="nav-link" href="{{ route('pembayaran.index') }}">Data Pembayaran</a>
+    </li>
+    <li class="{{ request()->is('grafik-pembayaran') ? 'active' : '' }}">
+      <a class="nav-link" href="{{ route('grafik.pembayaran') }}">Grafik Pembayaran</a>
+    </li>
+  </ul>
+</li>
+
+
 
     <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
       <a href="https://getstisla.com/docs" class="btn btn-primary btn-lg btn-block btn-icon-split">
